@@ -23,8 +23,11 @@ jobs:
           java-version: '21'
           cache: maven
 
-      - name: Run tests and build JAR
-        run: mvn --batch-mode --no-transfer-progress clean verify
+      - name: Run unit tests
+        run: mvn --batch-mode --no-transfer-progress test
+
+      - name: Build JAR
+        run: mvn --batch-mode --no-transfer-progress package -DskipTests
 
       - name: Upload application JAR
         uses: actions/upload-artifact@v7
