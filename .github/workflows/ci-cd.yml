@@ -8,8 +8,8 @@ permissions:
   contents: read
 
 jobs:
-  build-and-test:
-    name: Build, test and publish artifact
+  test:
+    name: Run unit tests
     runs-on: ubuntu-latest
 
     steps:
@@ -26,6 +26,22 @@ jobs:
       - name: Run unit tests
         run: mvn --batch-mode --no-transfer-progress test
 
+  build:
+    name: Build and publish artifact
+    runs-on: ubuntu-latest
+    needs: test
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v7
+
+      - name: Set up Java 21 and cache Maven dependencies
+        uses: actions/setup-java@v6
+        with:
+          distribution: temurin
+          java-version: '21'
+          cache: maven
+
       - name: Build JAR
         run: mvn --batch-mode --no-transfer-progress package -DskipTests
 
@@ -36,4 +52,3 @@ jobs:
           path: target/my-app-1.0-SNAPSHOT.jar
           if-no-files-found: error
           retention-days: 14
-
