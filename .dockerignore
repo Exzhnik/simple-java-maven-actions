@@ -1,0 +1,8 @@
+.git
+.github
+.idea
+target
+tmp
+output
+*.iml
+.DS_Store
